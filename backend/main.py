@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import yfinance as yf
 
 # Create FastAPI app
 app = FastAPI(
@@ -18,6 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/api/stock")
+async def fetch(ticker: str = "APO"):
+    return {"latestPrice": yf.Ticker(ticker).fast_info["last_price"]}
+
 @app.get("/")
 async def root():
     """Root endpoint"""
@@ -27,19 +32,6 @@ async def root():
 async def health_check():
     """Health check endpoint"""
     return {"status": "healthy", "message": "API is running"}
-
-@app.get("/api/data")
-async def get_data():
-    """Returns sample data"""
-    return {
-        "data": [
-            {"id": 1, "name": "Item 1", "description": "First sample item"},
-            {"id": 2, "name": "Item 2", "description": "Second sample item"},
-            {"id": 3, "name": "Item 3", "description": "Third sample item"}
-        ],
-        "total": 3,
-        "message": "Sample data retrieved successfully"
-    }
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
