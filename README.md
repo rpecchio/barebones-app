@@ -8,15 +8,17 @@ A minimal full-stack application built with React (frontend) and FastAPI (backen
 barebones-app/
 ├── backend/
 │   ├── main.py           # FastAPI application
-│   └── requirements.txt  # Python dependencies
+│   ├── requirements.txt  # Python dependencies
+│   └── venv/            # Virtual environment (created after setup)
 ├── frontend/
 │   ├── index.html        # HTML template
-│   ├── public/
 │   ├── src/
 │   │   ├── App.jsx       # Main React component
 │   │   └── main.jsx      # React entry point
 │   ├── package.json      # Node.js dependencies
-│   └── vite.config.js    # Vite configuration
+│   ├── vite.config.js    # Vite configuration
+│   └── node_modules/    # Dependencies (created after npm install)
+├── .gitignore           # Git ignore file
 └── README.md            # This file
 ```
 
@@ -70,6 +72,11 @@ pip install -r requirements.txt
 python main.py
 ```
 
+**Alternative method (recommended for development):**
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
 The API will be available at http://localhost:8000
 
 ### Frontend Setup
@@ -90,6 +97,8 @@ npm run dev
 ```
 
 The frontend will be available at http://localhost:5173
+
+**Note:** If port 5173 is in use, Vite will automatically use the next available port (e.g., 5174, 5175, etc.)
 
 ## 🌐 API Endpoints
 
